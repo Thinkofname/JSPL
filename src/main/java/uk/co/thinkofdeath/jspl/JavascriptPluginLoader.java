@@ -60,6 +60,7 @@ public class JavascriptPluginLoader implements PluginLoader {
             jsPlugin.loader = this;
             jsPlugin.server = server;
             jsPlugin.logger = new PluginLogger(jsPlugin);
+            jsPlugin.dataFolder = new File(file.getParentFile(), descriptionFile.getName());
             jsPlugin.getLogger().info("Loading " + jsPlugin.getDescription().getFullName());
             jsPlugin.onLoad();
             return jsPlugin;

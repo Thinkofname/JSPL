@@ -23,10 +23,11 @@ public abstract class JSPlugin implements Plugin {
     boolean enabled = false;
     Server server;
     PluginLogger logger;
+    File dataFolder;
 
     @Override
     public File getDataFolder() {
-        return null;
+        return dataFolder;
     }
 
     @Override
