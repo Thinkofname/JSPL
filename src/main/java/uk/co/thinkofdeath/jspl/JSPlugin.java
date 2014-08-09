@@ -36,7 +36,7 @@ public abstract class JSPlugin implements Plugin {
 
     @Override
     public FileConfiguration getConfig() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -46,12 +46,12 @@ public abstract class JSPlugin implements Plugin {
 
     @Override
     public void saveConfig() {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void saveDefaultConfig() {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -61,7 +61,7 @@ public abstract class JSPlugin implements Plugin {
 
     @Override
     public void reloadConfig() {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -106,7 +106,6 @@ public abstract class JSPlugin implements Plugin {
 
     @Override
     public EbeanServer getDatabase() {
-
         throw new UnsupportedOperationException();
     }
 
