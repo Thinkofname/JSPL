@@ -29,6 +29,7 @@ dependencies {
 }
 
 shadowJar {
+    classifier = ''
     dependencies {
         exclude(dependency(group: "org.spigotmc", name: "spigot-api", version: "1.7.10-R0.1-SNAPSHOT"))
     }
