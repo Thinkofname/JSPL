@@ -5,6 +5,9 @@ import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.event.Event;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -14,9 +17,10 @@ import org.bukkit.plugin.PluginLogger;
 import java.io.File;
 import java.io.InputStream;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.logging.Logger;
 
-public abstract class JSPlugin implements Plugin {
+public abstract class JSPlugin implements Plugin, Listener {
 
     PluginDescriptionFile description;
     JavascriptPluginLoader loader;
@@ -24,6 +28,30 @@ public abstract class JSPlugin implements Plugin {
     Server server;
     PluginLogger logger;
     File dataFolder;
+
+    public JSPlugin on(String event, Consumer<Event> callable) {
+        return on(event, "normal", callable);
+    }
+
+    public JSPlugin on(String event, String priority, Consumer<Event> callable) {
+        return on(event, priority, true, callable);
+    }
+
+    public JSPlugin on(String event, String priority, boolean ignoreCanceled, Consumer<Event> callable) {
+        Class<? extends Event> eClass;
+        try {
+            eClass = Class.forName("org.bukkit.event." + event.replace("/", ".")).asSubclass(Event.class);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Unknown event: " + event);
+        }
+        EventPriority p = EventPriority.valueOf(priority.toUpperCase());
+        if (p == null) {
+            throw new RuntimeException("Unknown priority level: " + priority);
+        }
+        getServer().getPluginManager()
+                .registerEvent(eClass, this, p, (l, e) -> callable.accept(e), this, ignoreCanceled);
+        return this;
+    }
 
     @Override
     public File getDataFolder() {
