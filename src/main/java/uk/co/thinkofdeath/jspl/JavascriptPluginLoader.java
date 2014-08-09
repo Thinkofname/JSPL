@@ -62,6 +62,7 @@ public class JavascriptPluginLoader implements PluginLoader {
             jsPlugin.logger = new PluginLogger(jsPlugin);
             jsPlugin.dataFolder = new File(file.getParentFile(), descriptionFile.getName());
             jsPlugin.getLogger().info("Loading " + jsPlugin.getDescription().getFullName());
+            context.setAttribute("$", jsPlugin, ScriptContext.ENGINE_SCOPE);
             jsPlugin.onLoad();
             return jsPlugin;
         } catch (IOException
