@@ -36,36 +36,6 @@ public abstract class JSPlugin implements Plugin {
     }
 
     @Override
-    public FileConfiguration getConfig() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public InputStream getResource(String filename) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void saveConfig() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void saveDefaultConfig() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void saveResource(String resourcePath, boolean replace) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void reloadConfig() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public PluginLoader getPluginLoader() {
         return loader;
     }
@@ -106,11 +76,6 @@ public abstract class JSPlugin implements Plugin {
     }
 
     @Override
-    public EbeanServer getDatabase() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
         return null;
     }
@@ -133,5 +98,42 @@ public abstract class JSPlugin implements Plugin {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         return null;
+    }
+
+    // Unsupported
+
+    @Override
+    public EbeanServer getDatabase() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void saveResource(String resourcePath, boolean replace) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public FileConfiguration getConfig() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public InputStream getResource(String filename) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void saveConfig() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void saveDefaultConfig() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void reloadConfig() {
+        throw new UnsupportedOperationException();
     }
 }
