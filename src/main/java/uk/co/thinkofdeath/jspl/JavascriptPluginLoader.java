@@ -12,6 +12,7 @@ import org.bukkit.plugin.*;
 
 import javax.script.*;
 import java.io.*;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -22,9 +23,13 @@ public class JavascriptPluginLoader implements PluginLoader {
     private final Server server;
     private final ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
     private final Bindings global = engine.getBindings(ScriptContext.GLOBAL_SCOPE);
+    private final Map<String, ScriptContext> contexts = new HashMap<>();
+
+    private static JavascriptPluginLoader instance;
 
     public JavascriptPluginLoader(Server server) {
         this.server = server;
+        instance = this;
         global.put("Plugin", StaticClass.forClass(JSPlugin.class));
     }
 
@@ -54,6 +59,8 @@ public class JavascriptPluginLoader implements PluginLoader {
                 System.out.println(plugin.getClass().getName());
                 throw new InvalidPluginException("Missing var - plugin, plugin must be a JSPlugin");
             }
+
+            contexts.put(descriptionFile.getName().toLowerCase(), context);
 
             JSPlugin jsPlugin = (JSPlugin) plugin;
             jsPlugin.description = descriptionFile;
@@ -132,5 +139,27 @@ public class JavascriptPluginLoader implements PluginLoader {
 
     public static Pattern[] getJavascriptMatcher() {
         return javascriptMatcher;
+    }
+
+    /**
+     * Used because the bukkit api provides no way to get a loader
+     * without a plugin loaded by it
+     *
+     * @return The plugin loader
+     */
+    public static JavascriptPluginLoader getInstance() {
+        return instance;
+    }
+
+    public Bindings getGlobal() {
+        return global;
+    }
+
+    public ScriptEngine getEngine() {
+        return engine;
+    }
+
+    public ScriptContext getContext(String plugin) {
+        return contexts.get(plugin.toLowerCase());
     }
 }

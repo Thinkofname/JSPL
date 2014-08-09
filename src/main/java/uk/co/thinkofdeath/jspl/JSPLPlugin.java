@@ -3,11 +3,14 @@ package uk.co.thinkofdeath.jspl;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.InvalidPluginException;
 import org.bukkit.plugin.java.JavaPlugin;
+import uk.co.thinkofdeath.command.bukkit.BukkitCommandManager;
 
 import java.io.File;
 import java.util.regex.Pattern;
 
 public class JSPLPlugin extends JavaPlugin {
+
+    private final BukkitCommandManager commandManager = new BukkitCommandManager(this);
 
     @Override
     public void onLoad() {
@@ -23,5 +26,13 @@ public class JSPLPlugin extends JavaPlugin {
                 }
             }
         }
+    }
+
+    @Override
+    public void onEnable() {
+        commandManager.register(new JSPLCommands(this));
+
+        getCommand("jspl").setExecutor(commandManager);
+        getCommand("jspl").setTabCompleter(commandManager);
     }
 }

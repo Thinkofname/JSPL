@@ -7,3 +7,6 @@ main: uk.co.thinkofdeath.jspl.JSPLPlugin
 load: STARTUP
 
 commands:
+  jspl:
+    description: Execute javascript in the context of a JS plugin
+    usage: N/A
