@@ -20,7 +20,7 @@ public class JavascriptPluginLoader implements PluginLoader {
 
     private static final Pattern[] javascriptMatcher = {Pattern.compile("\\.js$")};
     private final Server server;
-    private final ScriptEngine engine = new ScriptEngineManager(getClass().getClassLoader()).getEngineByName("nashorn");
+    private final ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
     private final Bindings global = engine.getBindings(ScriptContext.GLOBAL_SCOPE);
 
     public JavascriptPluginLoader(Server server) {
