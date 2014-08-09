@@ -102,7 +102,7 @@ public class JavascriptPluginLoader implements PluginLoader {
 
     @Override
     public Map<Class<? extends Event>, Set<RegisteredListener>> createRegisteredListeners(Listener listener, Plugin plugin) {
-        return null;
+        throw new UnsupportedOperationException("Listeners");
     }
 
     @Override
