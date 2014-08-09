@@ -18,11 +18,11 @@ import java.util.logging.Logger;
 
 public abstract class JSPlugin implements Plugin {
 
-    protected PluginDescriptionFile description;
-    protected JavascriptPluginLoader loader;
-    protected boolean enabled = false;
-    protected Server server;
-    protected PluginLogger logger;
+    PluginDescriptionFile description;
+    JavascriptPluginLoader loader;
+    boolean enabled = false;
+    Server server;
+    PluginLogger logger;
 
     @Override
     public File getDataFolder() {
