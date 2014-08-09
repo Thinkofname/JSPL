@@ -1,0 +1,9 @@
+name: JSPL
+version: 0.1
+description: Allows the use of javascript plugins
+author: Thinkofdeath
+
+main: uk.co.thinkofdeath.jspl.JSPLPlugin
+load: STARTUP
+
+commands:
