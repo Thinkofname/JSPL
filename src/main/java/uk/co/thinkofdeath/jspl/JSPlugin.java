@@ -5,6 +5,7 @@ import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -15,9 +16,11 @@ import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.PluginLogger;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public abstract class JSPlugin implements Plugin, Listener {
@@ -28,6 +31,8 @@ public abstract class JSPlugin implements Plugin, Listener {
     Server server;
     PluginLogger logger;
     File dataFolder;
+    File configFile;
+    private FileConfiguration config;
 
     public JSPlugin on(String event, Consumer<Event> callable) {
         return on(event, "normal", callable);
@@ -76,6 +81,28 @@ public abstract class JSPlugin implements Plugin, Listener {
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+    @Override
+    public FileConfiguration getConfig() {
+        if (config == null) {
+            reloadConfig();
+        }
+        return config;
+    }
+
+    @Override
+    public void saveConfig() {
+        try {
+            getConfig().save(configFile);
+        } catch (IOException ex) {
+            logger.log(Level.SEVERE, "Could not save config to " + configFile, ex);
+        }
+    }
+
+    @Override
+    public void reloadConfig() {
+        config = YamlConfiguration.loadConfiguration(configFile);
     }
 
     @Override
@@ -141,27 +168,12 @@ public abstract class JSPlugin implements Plugin, Listener {
     }
 
     @Override
-    public FileConfiguration getConfig() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public InputStream getResource(String filename) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void saveConfig() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public void saveDefaultConfig() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void reloadConfig() {
         throw new UnsupportedOperationException();
     }
 }

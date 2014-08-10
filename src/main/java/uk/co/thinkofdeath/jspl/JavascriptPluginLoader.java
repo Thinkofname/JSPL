@@ -68,6 +68,7 @@ public class JavascriptPluginLoader implements PluginLoader {
             jsPlugin.server = server;
             jsPlugin.logger = new PluginLogger(jsPlugin);
             jsPlugin.dataFolder = new File(file.getParentFile(), descriptionFile.getName());
+            jsPlugin.configFile = new File(jsPlugin.dataFolder, "config.yml");
             jsPlugin.getLogger().info("Loading " + jsPlugin.getDescription().getFullName());
             context.setAttribute("$", jsPlugin, ScriptContext.ENGINE_SCOPE);
 
