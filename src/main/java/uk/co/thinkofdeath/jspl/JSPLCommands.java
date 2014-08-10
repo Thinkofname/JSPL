@@ -17,7 +17,7 @@ public class JSPLCommands implements CommandHandler {
     }
 
     @Command("jspl")
-    @HasPermission("jspl")
+    @HasPermission(value = "jspl", wildcard = true)
     public void help(CommandSender sender) {
         sender.sendMessage(ChatColor.AQUA + "JSPL Help:");
         sender.sendMessage(ChatColor.AQUA + "/jspl exec global <command>" +
@@ -27,7 +27,7 @@ public class JSPLCommands implements CommandHandler {
     }
 
     @Command("jspl exec global ?")
-    @HasPermission("jspl.exec.global")
+    @HasPermission(value = "jspl.exec.global", wildcard = true)
     public void exec(CommandSender sender, String command) {
         JavascriptPluginLoader loader = JavascriptPluginLoader.getInstance();
         Object result = null;
@@ -43,7 +43,7 @@ public class JSPLCommands implements CommandHandler {
     }
 
     @Command("jspl exec ? ?")
-    @HasPermission("jspl.exec.plugin")
+    @HasPermission(value ="jspl.exec.plugin", wildcard = true)
     public void exec(CommandSender sender, String plugin, String command) {
         JavascriptPluginLoader loader = JavascriptPluginLoader.getInstance();
         ScriptContext context = loader.getContext(plugin);
