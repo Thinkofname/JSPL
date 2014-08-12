@@ -2,11 +2,11 @@ package uk.co.thinkofdeath.jspl;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import uk.co.thinkofdeath.parsing.bukkit.validators.HasPermission;
+import org.bukkit.plugin.Plugin;
 import uk.co.thinkofdeath.command.Command;
 import uk.co.thinkofdeath.command.CommandHandler;
+import uk.co.thinkofdeath.parsing.bukkit.validators.HasPermission;
 
-import javax.script.ScriptContext;
 import javax.script.ScriptException;
 
 public class JSPLCommands implements CommandHandler {
@@ -43,16 +43,25 @@ public class JSPLCommands implements CommandHandler {
     }
 
     @Command("jspl exec ? ?")
-    @HasPermission(value ="jspl.exec.plugin", wildcard = true)
+    @HasPermission(value = "jspl.exec.plugin", wildcard = true)
     public void exec(CommandSender sender, String plugin, String command) {
-        JavascriptPluginLoader loader = JavascriptPluginLoader.getInstance();
-        ScriptContext context = loader.getContext(plugin);
-        if (context == null) {
-            sender.sendMessage(ChatColor.RED + "Unknown Javascript Plugin: " + plugin);
+        Plugin p = jsplPlugin.getServer().getPluginManager().getPlugin(plugin);
+        if (p == null) {
+            for (Plugin pl : jsplPlugin.getServer().getPluginManager().getPlugins()) {
+                if (pl.getName().equalsIgnoreCase(plugin)) {
+                    p = pl;
+                    break;
+                }
+            }
         }
+        if (p == null || !(p instanceof JSPlugin)) {
+            sender.sendMessage(ChatColor.RED + "Unknown Javascript Plugin: " + plugin);
+            return;
+        }
+        JSPlugin jsPlugin = (JSPlugin) p;
         Object result = null;
         try {
-            result = loader.getEngine().eval(command, context);
+            result = jsPlugin.getLoader().getEngine().eval(command, jsPlugin.getContext());
         } catch (ScriptException e) {
             sender.sendMessage(ChatColor.RED + "Failed to execute");
             sender.sendMessage(ChatColor.RED + e.getMessage());

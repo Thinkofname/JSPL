@@ -15,6 +15,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.PluginLogger;
 
+import javax.script.ScriptContext;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +28,7 @@ public abstract class JSPlugin implements Plugin, Listener {
 
     PluginDescriptionFile description;
     JavascriptPluginLoader loader;
+    ScriptContext context;
     boolean enabled = false;
     Server server;
     PluginLogger logger;
@@ -81,6 +83,14 @@ public abstract class JSPlugin implements Plugin, Listener {
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public ScriptContext getContext() {
+        return context;
+    }
+
+    public JavascriptPluginLoader getLoader() {
+        return loader;
     }
 
     @Override

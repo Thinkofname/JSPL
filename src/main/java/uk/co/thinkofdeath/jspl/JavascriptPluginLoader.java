@@ -23,7 +23,6 @@ public class JavascriptPluginLoader implements PluginLoader {
     private final Server server;
     private final ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
     private final Bindings global = engine.getBindings(ScriptContext.GLOBAL_SCOPE);
-    private final Map<String, ScriptContext> contexts = new HashMap<>();
 
     private static JavascriptPluginLoader instance;
 
@@ -60,9 +59,8 @@ public class JavascriptPluginLoader implements PluginLoader {
                 throw new InvalidPluginException("Missing var - plugin, plugin must be a JSPlugin");
             }
 
-            contexts.put(descriptionFile.getName().toLowerCase(), context);
-
             JSPlugin jsPlugin = (JSPlugin) plugin;
+            jsPlugin.context = context;
             jsPlugin.description = descriptionFile;
             jsPlugin.loader = this;
             jsPlugin.server = server;
@@ -162,9 +160,5 @@ public class JavascriptPluginLoader implements PluginLoader {
 
     public ScriptEngine getEngine() {
         return engine;
-    }
-
-    public ScriptContext getContext(String plugin) {
-        return contexts.get(plugin.toLowerCase());
     }
 }
