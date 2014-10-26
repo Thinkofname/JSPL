@@ -56,7 +56,11 @@ public abstract class JSPlugin implements Plugin, Listener {
             throw new RuntimeException("Unknown priority level: " + priority);
         }
         getServer().getPluginManager()
-                .registerEvent(eClass, this, p, (l, e) -> callable.accept(e), this, ignoreCanceled);
+                .registerEvent(eClass, this, p, (l, e) -> {
+                    if (eClass.isInstance(e)) {
+                        callable.accept(e);
+                    }
+                }, this, ignoreCanceled);
         return this;
     }
 
