@@ -1,5 +1,6 @@
 package uk.co.thinkofdeath.jspl;
 
+import com.google.common.base.Joiner;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
@@ -21,14 +22,15 @@ public class JSPLCommands implements CommandHandler {
     public void help(CommandSender sender) {
         sender.sendMessage(ChatColor.AQUA + "JSPL Help:");
         sender.sendMessage(ChatColor.AQUA + "/jspl exec global <command>" +
-                "  - Execute javascript in the global scope");
+            "  - Execute javascript in the global scope");
         sender.sendMessage(ChatColor.AQUA + "/jspl exec <plugin> <command>" +
-                "  - Execute javascript in the plugin's scope");
+            "  - Execute javascript in the plugin's scope");
     }
 
     @Command("jspl exec global ?")
     @HasPermission(value = "jspl.exec.global", wildcard = true)
-    public void exec(CommandSender sender, String command) {
+    public void exec(CommandSender sender, String... cmds) {
+        String command = Joiner.on(' ').join(cmds);
         JavascriptPluginLoader loader = JavascriptPluginLoader.getInstance();
         Object result = null;
         try {
@@ -44,7 +46,8 @@ public class JSPLCommands implements CommandHandler {
 
     @Command("jspl exec ? ?")
     @HasPermission(value = "jspl.exec.plugin", wildcard = true)
-    public void exec(CommandSender sender, String plugin, String command) {
+    public void exec(CommandSender sender, String plugin, String... cmds) {
+        String command = Joiner.on(' ').join(cmds);
         Plugin p = jsplPlugin.getServer().getPluginManager().getPlugin(plugin);
         if (p == null) {
             for (Plugin pl : jsplPlugin.getServer().getPluginManager().getPlugins()) {
