@@ -10,7 +10,7 @@ repositories {
         url "http://repo.md-5.net/content/repositories/snapshots/"
     }
     maven {
-        url "http://repo.thinkofdeath.co.uk/"
+        url "http://repo.thinkofdeath.co.uk/content/groups/public/"
     }
 }
 
